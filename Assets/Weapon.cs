@@ -18,7 +18,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] TextMeshProUGUI ammoText;
 
     bool canShoot = true;
-    private StarterAssetsInputs _playerControls;
+    private PlayerControls _playerControls;
 
     private void OnEnable()
     {
@@ -27,7 +27,7 @@ public class Weapon : MonoBehaviour
 
     private void Start()
     {
-        _playerControls = GetComponent<StarterAssetsInputs>();
+        _playerControls = GetComponent<PlayerControls>();
     }
 
     private IEnumerator CoolWeapon()
@@ -43,7 +43,7 @@ public class Weapon : MonoBehaviour
     void Update()
     {
         DisplayAmmo();
-        if (_playerControls.shoot && canShoot)
+        if (_playerControls.GetPlayerAttackedThisFrame && canShoot)
         {
             StartCoroutine(Shoot());
         }

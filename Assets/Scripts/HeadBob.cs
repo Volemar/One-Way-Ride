@@ -21,7 +21,7 @@ public class HeadBob : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Mathf.Abs(_input.GetPlayerMovement().x) > 0.1f || Mathf.Abs(_input.GetPlayerMovement().y) > 0.1f)
+        if(Mathf.Abs(_input.GetPlayerMovement.x) > 0.1f || Mathf.Abs(_input.GetPlayerMovement.y) > 0.1f)
         {
             //Player is moving
             timer += Time.deltaTime * walkingBobbingSpeed;

@@ -8,6 +8,12 @@ public class Note : MonoBehaviour, IInteractable
     private bool isBeenInteracted = false;
     private bool isBeenCloseInteracted = false;
     private Transform initialTransform;
+    private bool isExplorable = true;
+    private bool hasCloseInteraction = true;
+
+    bool IInteractable.isExplorable => true;
+
+    bool IInteractable.hasCloseInteraction { get => true; set => hasCloseInteraction = value; }
 
     public Transform GetInitialTransform()
     {
@@ -40,5 +46,25 @@ public class Note : MonoBehaviour, IInteractable
         text.text = "";
         text.enabled = false;
         noteCanvas.enabled = false;
+    }
+
+    void IInteractable.Interact()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    void IInteractable.CloseInteraction()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    void IInteractable.StopCloseInteraction()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    void IInteractable.StopInteracting()
+    {
+        throw new System.NotImplementedException();
     }
 }

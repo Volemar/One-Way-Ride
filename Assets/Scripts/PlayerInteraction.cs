@@ -22,7 +22,7 @@ public class PlayerInteraction : MonoBehaviour
         IInteractable interactable = raycast.HitInfo.transform.GetComponent<IInteractable>();
         if(interactable == null) return;
         if(isInteracting) return;
-        if(!inputs.PlayerInteractedThisFrame(interactable)) return;
+        if(!inputs.GetPlayerInteractedThisFrame) return;
         if(!raycast.IsHitting) return;
         isInteracting = true;
         interactable.Interact();

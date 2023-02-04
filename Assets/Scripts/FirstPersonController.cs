@@ -70,18 +70,6 @@ namespace StarterAssets
 
 		private const float _threshold = 0.01f;
 
-		private bool IsCurrentDeviceMouse
-		{
-			get
-			{
-				#if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
-				return _playerInput.currentControlScheme == "KeyboardMouse";
-				#else
-				return false;
-				#endif
-			}
-		}
-
 		private void Awake()
 		{
 			// get a reference to our main camera
@@ -124,13 +112,15 @@ namespace StarterAssets
 		private void CameraRotation()
 		{
 			// if there is an input
-			if (_controls.GetMouseDelta().sqrMagnitude >= _threshold)
+			if (_controls.GetMouseDelta.sqrMagnitude >= _threshold)
 			{
-				//Don't multiply mouse input by Time.deltaTime
-				float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 				
-				_cinemachineTargetPitch += _controls.GetMouseDelta().y * RotationSpeed * deltaTimeMultiplier;
-				_rotationVelocity = _controls.GetMouseDelta().x * RotationSpeed * deltaTimeMultiplier;
+				//Don't multiply mouse input by Time.deltaTime
+				//float deltaTimeMultiplier = _playerInput.controlSchemes[0]. ? 1.0f : Time.deltaTime;
+				float deltaTimeMultiplier = 1.0f;
+				
+				_cinemachineTargetPitch += _controls.GetMouseDelta.y * RotationSpeed * deltaTimeMultiplier;
+				_rotationVelocity = _controls.GetMouseDelta.x * RotationSpeed * deltaTimeMultiplier;
 
 				// clamp our pitch rotation
 				_cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
@@ -146,13 +136,13 @@ namespace StarterAssets
 		private void Move()
 		{
 			// set target speed based on move speed, sprint speed and if sprint is pressed
-			float targetSpeed = _controls.PlayerSprintThisFrame() ? SprintSpeed : MoveSpeed;
+			float targetSpeed = _controls.GetPlayerSprintThisFrame ? SprintSpeed : MoveSpeed;
 
 			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
 			// note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
 			// if there is no input, set the target speed to 0
-			if (_controls.GetPlayerMovement() == Vector2.zero) targetSpeed = 0.0f;
+			if (_controls.GetPlayerMovement == Vector2.zero) targetSpeed = 0.0f;
 
 			// a reference to the players current horizontal velocity
 			float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
@@ -164,7 +154,7 @@ namespace StarterAssets
 			{
 				// creates curved result rather than a linear one giving a more organic speed change
 				// note T in Lerp is clamped, so we don't need to clamp our speed
-				_speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * _controls.GetPlayerMovement().magnitude, Time.deltaTime * SpeedChangeRate);
+				_speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * _controls.GetPlayerMovement.magnitude, Time.deltaTime * SpeedChangeRate);
 
 				// round speed to 3 decimal places
 				_speed = Mathf.Round(_speed * 1000f) / 1000f;
@@ -175,14 +165,14 @@ namespace StarterAssets
 			}
 
 			// normalise input direction
-			Vector3 inputDirection = new Vector3(_controls.GetPlayerMovement().x, 0.0f, _controls.GetPlayerMovement().y).normalized;
+			Vector3 inputDirection = new Vector3(_controls.GetPlayerMovement.x, 0.0f, _controls.GetPlayerMovement.y).normalized;
 
 			// note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
 			// if there is a move input rotate player when the player is moving
-			if (_controls.GetPlayerMovement() != Vector2.zero)
+			if (_controls.GetPlayerMovement != Vector2.zero)
 			{
 				// move
-				inputDirection = transform.right * _controls.GetPlayerMovement().x + transform.forward * _controls.GetPlayerMovement().y;
+				inputDirection = transform.right * _controls.GetPlayerMovement.x + transform.forward * _controls.GetPlayerMovement.y;
 			}
 
 			// move the player
@@ -203,7 +193,7 @@ namespace StarterAssets
 				}
 
 				// Jump
-				if (_controls.PlayerJumpedThisFrame() && _jumpTimeoutDelta <= 0.0f)
+				if (_controls.GetPlayerJumpedThisFrame && _jumpTimeoutDelta <= 0.0f)
 				{
 					// the square root of H * -2 * G = how much velocity needed to reach desired height
 					_verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);

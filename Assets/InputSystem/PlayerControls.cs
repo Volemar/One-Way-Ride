@@ -2,16 +2,39 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
 
+public enum ActionMaps
+{
+    PlayerDefault,
+    Interaction,
+    Menu
+}
+
 public class PlayerControls : MonoBehaviour
 {
     private static PlayerControls _instance;
-    public static PlayerControls Instance
-    {
-        get => _instance;
-    }
-    public PlayerInput _playerInput;
-    private InputActionMap currentActionMap;
-    
+    private PlayerInput _input;
+    public static PlayerControls Instance => _instance;
+    #region Input Properties
+        #region Exploring
+            public bool GetStopExploring { get; private set; }
+            public Vector2 GetObjExploring { get; private set; }
+            public bool GetCloserInteraction { get; private set; }
+        #endregion
+        #region PlayerDefault
+            public Vector2 GetPlayerMovement { get; private set; }
+            public Vector2 GetMouseDelta { get; private set; }
+            public bool GetPlayerToggleFlashlightThisFrame { get; private set; }
+            public bool GetPlayerJumpedThisFrame { get; private set; }
+            public bool GetPlayerReloadedThisFrame { get; private set; }
+            public bool GetPlayerSprintThisFrame { get; private set; }
+            public bool GetPlayerUIThisFrame { get; private set; }
+            public float GetPlayerWeaponScrollThisFrame { get; private set; }
+            public float GetPlayerWeaponSwitchedThisFrame { get; private set; }
+            public bool GetPlayerAttackedThisFrame { get; private set; }
+            public bool GetPlayerInteractedThisFrame { get; private set; }
+        #endregion
+    #endregion
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -22,122 +45,111 @@ public class PlayerControls : MonoBehaviour
         {
             _instance = this;
         }
-        _playerInput = new PlayerInput();
-        foreach (InputActionMap item in _playerInput)
+        _input = GetComponent<PlayerInput>();
+        foreach (InputActionMap item in _input.actions.actionMaps)
         {
             item.Disable();
         }
-        currentActionMap = _playerInput.PlayerDefault;
-        currentActionMap.Enable();
+        _input.currentActionMap.Enable();
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void OnEnable()
     {
-        _playerInput.Enable();
+        _input.enabled = true;
     }
     
     private void OnDisable()
     {
-        _playerInput.Disable();
+        _input.enabled = false;
     }
-        
+    public void SwitchToExploring()
+    {
+        _input.SwitchCurrentActionMap(ActionMaps.Interaction.ToString());
+    }
+    public void SwitchToPlayerDefault()
+    {
+        _input.SwitchCurrentActionMap(ActionMaps.PlayerDefault.ToString());
+    }
+    public void SwitchToMenu()
+    {
+        _input.SwitchCurrentActionMap(ActionMaps.Menu.ToString());
+    }
     public bool StopExploration()
     {
-        bool isStopped = CheckForStoppedExploring();
+        bool isStopped = GetStopExploring;
         if (isStopped)
         {
-            _playerInput.Exploring.Disable();
-            _playerInput.PlayerDefault.Enable();
-            currentActionMap = _playerInput.PlayerDefault;
+            _input.SwitchCurrentActionMap(ActionMaps.PlayerDefault.ToString());
         }
         return isStopped;
     }
-    public bool CheckForStoppedExploring()
+    public void StopExploring(CallbackContext context)
     {
-        return _playerInput.Exploring.StopExploring.triggered;
+        GetStopExploring = context.performed;
     }
-    public Vector2 ObjectExploring()
+    public void ObjectExploring(CallbackContext context)
     {
-        return _playerInput.Exploring.Looking.ReadValue<Vector2>();
+        GetObjExploring = context.ReadValue<Vector2>();
     }
-    public bool CloserInteraction()
+    public void CloserInteraction(CallbackContext context)
     {
-        return _playerInput.Exploring.CloserInteraction.triggered;
+        GetCloserInteraction = context.performed;
     }
 
-    public Vector2 GetPlayerMovement()
+    public void PlayerMovement(CallbackContext context)
     {
-        return _playerInput.PlayerDefault.Move.ReadValue<Vector2>();
+        GetPlayerMovement = context.ReadValue<Vector2>();
     }
-    public Vector2 GetMouseDelta()
+    public void MouseDelta(CallbackContext context)
     {
-        return _playerInput.PlayerDefault.Look.ReadValue<Vector2>();
+        GetMouseDelta = context.ReadValue<Vector2>();
     }
     
-    public bool PlayerJumpedThisFrame()
+    public void PlayerJumpedThisFrame(CallbackContext context)
     {
-        return _playerInput.PlayerDefault.Jump.triggered;
+        GetPlayerJumpedThisFrame = context.performed;
     }
     
-    public bool PlayerToggleFlashlightThisFrame()
+    public void PlayerToggleFlashlightThisFrame(CallbackContext context)
     {
-        return _playerInput.PlayerDefault.Flashlight.triggered;
+        GetPlayerToggleFlashlightThisFrame = context.performed;
+    }
+    
+    public void PlayerAttackedThisFrame(CallbackContext context)
+    {
+        GetPlayerAttackedThisFrame = context.performed;
+    }
+    
+    public void PlayerInteractedThisFrame(CallbackContext context)
+    {
+        GetPlayerInteractedThisFrame = context.performed;
     }
         
-    public bool PlayerAttackedThisFrame()
+    public void PlayerReloadedThisFrame(CallbackContext context)
     {
-        return _playerInput.PlayerDefault.Attack.triggered;
-    }
-        
-    public bool PlayerInteractedThisFrame(IInteractable interactable)
-    {
-        bool interacted = _playerInput.PlayerDefault.Interaction.triggered;
-        if (interacted && interactable.isExplorable)
-        {
-            currentActionMap.Disable();
-            _playerInput.Exploring.Enable();
-            currentActionMap = _playerInput.Exploring;
-        }
-        return interacted;
-    }
-        
-    public bool PlayerReloadedThisFrame()
-    {
-        return _playerInput.PlayerDefault.Reload.triggered;
+        GetPlayerReloadedThisFrame = context.performed;
     }
 
-    public bool PlayerSprintThisFrame()
+    public void PlayerSprintThisFrame(CallbackContext context)
     {
-        return _playerInput.PlayerDefault.Sprint.triggered;
+        GetPlayerSprintThisFrame = context.performed;
     }
 
-    public bool PlayerStopSprintThisFrame()
+    public void PlayerWeaponScrollThisFrame(CallbackContext context)
     {
-        return _playerInput.PlayerDefault.Sprint.WasReleasedThisFrame();
+        GetPlayerWeaponScrollThisFrame = context.ReadValue<float>();
     }
 
-    public float PlayerWeaponScrollThisFrame()
+    public void PlayerWeaponSwitchedThisFrame(CallbackContext context)
     {
-        Debug.Log("Scrolled");
-        return _playerInput.PlayerDefault.WeaponScroll.ReadValue<float>();
+        GetPlayerWeaponSwitchedThisFrame = context.ReadValue<float>();
     }
 
-    public float PlayerWeaponSwitchedThisFrame()
+    public void PlayerUIThisFrame(CallbackContext context)
     {
-        return _playerInput.PlayerDefault.WeaponKeyInput.ReadValue<float>();
-    }
-
-    public bool PlayerUIThisFrame()
-    {
-        bool isMenu = _playerInput.PlayerDefault.Menu.triggered;
-        if (isMenu)
-        {
-            _playerInput.PlayerDefault.Disable();
-            _playerInput.UI.Enable();
-            currentActionMap = _playerInput.UI;
-        }
-        return isMenu;
+        GetPlayerUIThisFrame = context.performed;
+        if(GetPlayerUIThisFrame) SwitchToMenu();
     }
 }
