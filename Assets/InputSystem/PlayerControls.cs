@@ -5,15 +5,13 @@ using static UnityEngine.InputSystem.InputAction;
 public enum ActionMaps
 {
     PlayerDefault,
-    Interaction,
+    Exploring,
     Menu
 }
 
 public class PlayerControls : MonoBehaviour
 {
-    private static PlayerControls _instance;
     private PlayerInput _input;
-    public static PlayerControls Instance => _instance;
     #region Input Properties
         #region Exploring
             public bool GetStopExploring { get; private set; }
@@ -37,14 +35,6 @@ public class PlayerControls : MonoBehaviour
 
     private void Awake()
     {
-        if (_instance != null && _instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            _instance = this;
-        }
         _input = GetComponent<PlayerInput>();
         foreach (InputActionMap item in _input.actions.actionMaps)
         {
@@ -66,7 +56,7 @@ public class PlayerControls : MonoBehaviour
     }
     public void SwitchToExploring()
     {
-        _input.SwitchCurrentActionMap(ActionMaps.Interaction.ToString());
+        _input.SwitchCurrentActionMap(ActionMaps.Exploring.ToString());
     }
     public void SwitchToPlayerDefault()
     {
@@ -75,15 +65,6 @@ public class PlayerControls : MonoBehaviour
     public void SwitchToMenu()
     {
         _input.SwitchCurrentActionMap(ActionMaps.Menu.ToString());
-    }
-    public bool StopExploration()
-    {
-        bool isStopped = GetStopExploring;
-        if (isStopped)
-        {
-            _input.SwitchCurrentActionMap(ActionMaps.PlayerDefault.ToString());
-        }
-        return isStopped;
     }
     public void StopExploring(CallbackContext context)
     {
@@ -150,6 +131,6 @@ public class PlayerControls : MonoBehaviour
     public void PlayerUIThisFrame(CallbackContext context)
     {
         GetPlayerUIThisFrame = context.performed;
-        if(GetPlayerUIThisFrame) SwitchToMenu();
+        if(GetPlayerUIThisFrame) SwitchToMenu(); //Change to esc on build
     }
 }

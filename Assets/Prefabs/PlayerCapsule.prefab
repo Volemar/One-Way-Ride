@@ -62,6 +62,8 @@ GameObject:
   - component: {fileID: 5423247589013266949}
   - component: {fileID: 5423247589013266948}
   - component: {fileID: 5423247589013266975}
+  - component: {fileID: 4714791882347791653}
+  - component: {fileID: 717655328}
   m_Layer: 8
   m_Name: PlayerCapsule
   m_TagString: Player
@@ -210,9 +212,9 @@ MonoBehaviour:
     m_ActionName: Player/Look[/Mouse/delta,/XInputControllerWindows/rightStick]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: InputJump
+      - m_Target: {fileID: 5423247589013266975}
+        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
+        m_MethodName: PlayerJumpedThisFrame
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -226,9 +228,9 @@ MonoBehaviour:
     m_ActionName: Player/Jump[/Keyboard/space,/XInputControllerWindows/buttonSouth]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: InputSprint
+      - m_Target: {fileID: 5423247589013266975}
+        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
+        m_MethodName: PlayerSprintThisFrame
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -241,47 +243,179 @@ MonoBehaviour:
     m_ActionId: 980e881e-182c-404c-8cbf-3d09fdb48fef
     m_ActionName: Player/Sprint[/Keyboard/leftShift,/XInputControllerWindows/leftTrigger]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5423247589013266975}
+        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
+        m_MethodName: PlayerAttackedThisFrame
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: bb73417b-d49d-47bf-85b9-426875d6ab9f
     m_ActionName: PlayerDefault/Attack[/Mouse/leftButton,/XInputControllerWindows/rightTrigger]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5423247589013266975}
+        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
+        m_MethodName: PlayerInteractedThisFrame
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 9eb9c0f3-2526-4e7e-886f-22bbc7cb0adf
     m_ActionName: PlayerDefault/Interact[/Keyboard/e,/XInputControllerWindows/buttonNorth]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5423247589013266975}
+        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
+        m_MethodName: PlayerToggleFlashlightThisFrame
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 586f367a-2ce8-465a-91b7-fee30fd96553
     m_ActionName: PlayerDefault/Flashlight[/Keyboard/f,/XInputControllerWindows/rightStickPress]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5423247589013266975}
+        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
+        m_MethodName: PlayerReloadedThisFrame
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: ccde856e-b575-4577-9aa1-e6fe89e63d76
     m_ActionName: PlayerDefault/Reload[/Keyboard/r,/XInputControllerWindows/buttonWest]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5423247589013266975}
+        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
+        m_MethodName: PlayerWeaponScrollThisFrame
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 72863a0d-c2aa-4fa6-b480-94fd4652f6e5
     m_ActionName: PlayerDefault/WeaponScroll[/Mouse/scroll/y,/XInputControllerWindows/dpad/left,/XInputControllerWindows/dpad/right]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5423247589013266975}
+        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
+        m_MethodName: PlayerWeaponSwitchedThisFrame
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 39176a9a-c972-4588-be46-1442ae456c0e
     m_ActionName: PlayerDefault/WeaponKeyInput[/Keyboard/1,/Keyboard/2,/Keyboard/3,/Keyboard/4,/Keyboard/5,/Keyboard/6,/Keyboard/7,/Keyboard/8,/Keyboard/9]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5423247589013266975}
+        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
+        m_MethodName: PlayerUIThisFrame
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 21ef0d64-ece3-47f0-a03d-39ecf16f0680
     m_ActionName: PlayerDefault/Menu[/Keyboard/escape,/XInputControllerWindows/start]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5423247589013266951}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: d1bbdda7-34c1-4816-a8c8-43ad98df908d
     m_ActionName: PlayerDefault/Inventory[/Keyboard/q,/XInputControllerWindows/select]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5423247589013266975}
+        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
+        m_MethodName: CloserInteraction
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: a492ccee-87e8-486f-abab-fc9f1e944310
     m_ActionName: Exploring/CloserInteraction[/Keyboard/e,/XInputControllerWindows/buttonNorth]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5423247589013266975}
+        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
+        m_MethodName: StopExploring
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 60e8c22f-c42f-4880-bccb-a25d9f9591c7
     m_ActionName: Exploring/StopExploring[/Mouse/rightButton,/XInputControllerWindows/buttonEast]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5423247589013266975}
+        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
+        m_MethodName: ObjectExploring
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 5c320d7b-52b1-47b4-9c73-61f9b58c80e6
     m_ActionName: Exploring/ObjectExploring[/Mouse/delta,/Pen/delta,/XInputControllerWindows/rightStick]
   - m_PersistentCalls:
@@ -326,6 +460,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3973567fadcd5e499fbc61eb288c774, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4714791882347791653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5423247589013266951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d1c8f0cd5b2c8a4fb8c16d467254c6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &717655328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5423247589013266951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4482cdd7f780f70478055d9f4d0d25b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mainCamera: {fileID: 0}
+  range: 10
 --- !u!1 &5423247589366106301
 GameObject:
   m_ObjectHideFlags: 0

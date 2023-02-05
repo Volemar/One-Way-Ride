@@ -33,4 +33,9 @@ public class CameraRaycasting : MonoBehaviour
             _isHitting = true;
         }
     }
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawRay(_mainCamera.transform.position, _mainCamera.transform.forward);
+    }
 }
