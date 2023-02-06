@@ -12,11 +12,12 @@ public enum ActionMaps
 public class PlayerControls : MonoBehaviour
 {
     private PlayerInput _input;
+    public bool mouseDisabled = false;
     #region Input Properties
         #region Exploring
             public bool GetStopExploring { get; private set; }
             public Vector2 GetObjExploring { get; private set; }
-            public bool GetCloserInteraction { get; private set; }
+            public bool GetCloserInteraction { get; set; } //not private set because it switches back to false too fast, so I will do it manually from interaction script
         #endregion
         #region PlayerDefault
             public Vector2 GetPlayerMovement { get; private set; }
@@ -44,7 +45,6 @@ public class PlayerControls : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
-
     private void OnEnable()
     {
         _input.enabled = true;
@@ -72,11 +72,12 @@ public class PlayerControls : MonoBehaviour
     }
     public void ObjectExploring(CallbackContext context)
     {
-        GetObjExploring = context.ReadValue<Vector2>();
+        GetObjExploring = mouseDisabled ? Vector2.zero : context.ReadValue<Vector2>();
     }
     public void CloserInteraction(CallbackContext context)
     {
-        GetCloserInteraction = context.performed;
+        if(context.phase == InputActionPhase.Started)
+        GetCloserInteraction = true;
     }
 
     public void PlayerMovement(CallbackContext context)
@@ -85,7 +86,7 @@ public class PlayerControls : MonoBehaviour
     }
     public void MouseDelta(CallbackContext context)
     {
-        GetMouseDelta = context.ReadValue<Vector2>();
+        GetMouseDelta = mouseDisabled ? Vector2.zero : context.ReadValue<Vector2>();
     }
     
     public void PlayerJumpedThisFrame(CallbackContext context)

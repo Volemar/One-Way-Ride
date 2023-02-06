@@ -24,7 +24,7 @@ public class HeadBob : MonoBehaviour
         if(Mathf.Abs(_input.GetPlayerMovement.x) > 0.1f || Mathf.Abs(_input.GetPlayerMovement.y) > 0.1f)
         {
             //Player is moving
-            timer += Time.deltaTime * walkingBobbingSpeed;
+            timer += Time.unscaledDeltaTime * walkingBobbingSpeed;
             transform.localPosition = new Vector3(transform.localPosition.x, defaultPosY + Mathf.Sin(timer) * bobbingAmount, transform.localPosition.z);
         }
         else

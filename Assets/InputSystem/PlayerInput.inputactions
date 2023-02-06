@@ -607,7 +607,7 @@
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "KeyboardMouse",
                     "action": "CloserInteraction",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -618,7 +618,7 @@
                     "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Gamepad",
                     "action": "CloserInteraction",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -629,7 +629,7 @@
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "KeyboardMouse",
                     "action": "StopExploring",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -640,7 +640,7 @@
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Gamepad",
                     "action": "StopExploring",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -651,7 +651,7 @@
                     "path": "<Pointer>/delta",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "KeyboardMouse",
                     "action": "ObjectExploring",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -662,7 +662,7 @@
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Gamepad",
                     "action": "ObjectExploring",
                     "isComposite": false,
                     "isPartOfComposite": false

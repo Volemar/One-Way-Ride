@@ -17,11 +17,6 @@ public class Note : MonoBehaviour, IInteractable
     bool IInteractable.hasCloseInteraction => true;
     bool IInteractable.hasToggleCloseInteraction => true;
 
-    // public Transform GetInitialTransform()
-    // {
-    //     return initialTransform;
-    // }
-
     private void Start()
     {
         initialPosition = transform.position;
@@ -31,10 +26,9 @@ public class Note : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        isBeenInteracted = true;
         closeInteractionCollider.enabled = true;
+        isBeenInteracted = true;
         Debug.Log("Interacted");
-        //mainCollider.enabled = false;
     }
     public void StopInteracting()
     {
@@ -44,7 +38,6 @@ public class Note : MonoBehaviour, IInteractable
         text.enabled = false;
         notePanel.SetActive(false);
         closeInteractionCollider.enabled = false;
-        //mainCollider.enabled = true;
         transform.SetParent(null);
         transform.position = initialPosition;
         transform.rotation = initialRotation;
@@ -60,17 +53,12 @@ public class Note : MonoBehaviour, IInteractable
     }
     public void StopCloseInteraction()
     {
-        Debug.Log("StopCloserInteraction");
         isBeenCloseInteracted = false;
         text.text = "";
         text.enabled = false;
         notePanel.SetActive(false);
         closeInteractionCollider.enabled = true;
-        //mainCollider.enabled = true;
-    }
-    public void SetParent(Transform gameObject)
-    {
-        transform.SetParent(gameObject);
+        Debug.Log("StopCloserInteraction");
     }
     
 }

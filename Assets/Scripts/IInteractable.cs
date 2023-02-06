@@ -9,5 +9,4 @@ public interface IInteractable
     public void CloseInteraction();
     public void StopCloseInteraction();
     public void StopInteracting();
-    public void SetParent(Transform gameObject);
 }

@@ -2,12 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using StarterAssets;
 using UnityEngine;
+public static class CustomTimeScale
+{
+    private static float _timeScale = 1f;
 
+    public static void ChangeTimeScaleToZero()
+    {
+        _timeScale = 0;
+    }
+    public static void ChangeTimeScaleToOne()
+    {
+        _timeScale = 1;
+    }
+    public static float GetTimeScale()
+    {
+        return _timeScale;
+    }
+}
 public class PlayerInteraction : MonoBehaviour
 {
     private CameraRaycasting raycast;
     private PlayerControls inputs;
-    private const string closeInteractionCollider = "CloseInteractionCollider";
+    private const string closeInteractionCollider = "closeInteractionCollider";
     public bool isInteracting = false;
     public bool isCloseInteracting = false;
     IInteractable currentInteractionObject = null;
@@ -28,6 +44,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         if(inputs.GetStopExploring)
         {
+            CustomTimeScale.ChangeTimeScaleToOne();
             isInteracting = false;
             currentInteractionObject.StopInteracting();
             currentInteractionObject = null;
@@ -37,16 +54,24 @@ public class PlayerInteraction : MonoBehaviour
         }
         if(isInteracting)
         {
-            if(isCloseInteracting && inputs.GetPlayerInteractedThisFrame)
+            if(isCloseInteracting && inputs.GetCloserInteraction)
             {
+                inputs.GetCloserInteraction = false;
                 isCloseInteracting = false;
+                inputs.mouseDisabled = false;
                 currentInteractionObject.StopCloseInteraction();
             }
             if(currentInteractionObject.hasCloseInteraction)
             {
-                if(raycast.IsHitting && raycast.HitInfo.transform.name == closeInteractionCollider
-                && inputs.GetPlayerInteractedThisFrame)
+                if(raycast.IsHitting && raycast.HitInfo.transform.tag == closeInteractionCollider)
                 {
+                    Debug.Log("PRESS THIS BUTTON");
+                }
+                if(inputs.GetCloserInteraction)
+                {
+                    Debug.Log("HERE WE GO");
+                    inputs.GetCloserInteraction = false;
+                    inputs.mouseDisabled = true;
                     currentInteractionObject.CloseInteraction();
                     isCloseInteracting = currentInteractionObject.hasToggleCloseInteraction;
                 }
@@ -56,8 +81,6 @@ public class PlayerInteraction : MonoBehaviour
             Vector3 direction = currentObject.transform.position - transform.position;
             currentObject.transform.Rotate(-newRotation, Space.World);
             currentObject.transform.RotateAround(currentObject.transform.position, Camera.main.transform.right, inputs.GetObjExploring.y * sensitivity);
-            
-            if(raycast.IsHitting && raycast.HitInfo.transform.name == closeInteractionCollider) Debug.Log("You see it!");
             
             return;
         }
@@ -72,5 +95,6 @@ public class PlayerInteraction : MonoBehaviour
         currentObject.transform.position = interactingObjectPosition;
         currentObject.transform.LookAt(Camera.main.transform);
         currentInteractionObject.Interact();
+        CustomTimeScale.ChangeTimeScaleToZero();
     }
 }
