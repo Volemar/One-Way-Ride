@@ -22,6 +22,7 @@ public class PlayerControls : MonoBehaviour
         #region PlayerDefault
             public Vector2 GetPlayerMovement { get; private set; }
             public Vector2 GetMouseDelta { get; private set; }
+            public bool GetPlayerCrouchThisFrame { get; set; }
             public bool GetPlayerToggleFlashlightThisFrame { get; private set; }
             public bool GetPlayerJumpedThisFrame { get; private set; }
             public bool GetPlayerReloadedThisFrame { get; private set; }
@@ -87,6 +88,11 @@ public class PlayerControls : MonoBehaviour
     public void MouseDelta(CallbackContext context)
     {
         GetMouseDelta = mouseDisabled ? Vector2.zero : context.ReadValue<Vector2>();
+    }
+    public void PlayerCrouch(CallbackContext context)
+    {
+        if(context.phase == InputActionPhase.Started)
+        GetPlayerCrouchThisFrame = context.ReadValueAsButton();
     }
     
     public void PlayerJumpedThisFrame(CallbackContext context)

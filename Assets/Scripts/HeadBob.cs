@@ -7,6 +7,7 @@ public class HeadBob : MonoBehaviour
     public float walkingBobbingSpeed = 14f;
     public float bobbingAmount = 0.05f;
 	private PlayerControls _input;
+    private FirstPersonController _controller;
 
     float defaultPosY = 0;
     float timer = 0;
@@ -18,6 +19,10 @@ public class HeadBob : MonoBehaviour
         defaultPosY = transform.localPosition.y;
     }
 
+    public void SetDefaultPositionForCamera(float y)
+    {
+        defaultPosY = y;
+    }
     // Update is called once per frame
     void Update()
     {

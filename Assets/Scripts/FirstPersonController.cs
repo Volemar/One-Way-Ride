@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
 #endif
@@ -70,12 +71,58 @@ namespace StarterAssets
 
 		private const float _threshold = 0.01f;
 
+		//Crouch variables
+		private Vector3 _defaultColliderDimensions = new Vector3(0,1f,0);
+		private Vector3 _crouchColliderDimensions = new Vector3(0,0.5f,0);
+		private float _crouchCharControllerHeight = 1;
+		private float _defaultCharControllerHeight = 2;
+		private Vector3 _defaultCameraHolderPosition = Vector3.zero;
+		private Vector3 _crouchCameraHolderPosition = new Vector3(0,-0.5f,0);
+		public bool isCrouching = false;
+		[SerializeField] private Transform _cameraHolder;
+		private float crouchSpeed = 2f;
+		private HeadBob _headbob;
+
 		private void Awake()
 		{
 			// get a reference to our main camera
 			if (_mainCamera == null)
 			{
 				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+			}
+			_headbob = GetComponentInChildren<HeadBob>();
+		}
+
+		public void CrouchToggle()
+		{
+			if(!_controls.GetPlayerCrouchThisFrame) return;
+			if(isCrouching)
+			{
+				_controls.GetPlayerCrouchThisFrame = false;
+				isCrouching = false;
+				_controller.height = _defaultCharControllerHeight;
+				_controller.center = _defaultColliderDimensions;
+				_headbob.SetDefaultPositionForCamera(0);
+				StartCoroutine(MoveCameraHolder(_defaultCameraHolderPosition));
+				return;
+			}
+			_controls.GetPlayerCrouchThisFrame = false;
+			isCrouching = true;
+			_controller.height = _crouchCharControllerHeight;
+			_controller.center = _crouchColliderDimensions;
+			_headbob.SetDefaultPositionForCamera(-.5f);
+			StartCoroutine(MoveCameraHolder(_crouchCameraHolderPosition));
+		}
+
+		public IEnumerator MoveCameraHolder(Vector3 destination)
+		{
+			float totalMovementTime = .5f; //the amount of time you want the movement to take
+			float currentMovementTime = 0f;//The amount of time that has passed
+			while (Vector3.Distance(_cameraHolder.localPosition, destination) > 0 && totalMovementTime < currentMovementTime) 
+			{
+				currentMovementTime += Time.deltaTime;
+				_cameraHolder.localPosition = Vector3.Lerp(_cameraHolder.localPosition, destination, currentMovementTime / totalMovementTime);
+				yield return null;
 			}
 		}
 
@@ -94,6 +141,7 @@ namespace StarterAssets
 		{
 			JumpAndGravity();
 			GroundedCheck();
+			CrouchToggle();
 			Move();
 		}
 
@@ -114,7 +162,6 @@ namespace StarterAssets
 			// if there is an input
 			if (_controls.GetMouseDelta.sqrMagnitude >= _threshold)
 			{
-				
 				//Don't multiply mouse input by Time.deltaTime
 				//float deltaTimeMultiplier = _playerInput.controlSchemes[0]. ? 1.0f : Time.deltaTime;
 				float deltaTimeMultiplier = 1.0f;
@@ -137,6 +184,7 @@ namespace StarterAssets
 		{
 			// set target speed based on move speed, sprint speed and if sprint is pressed
 			float targetSpeed = _controls.GetPlayerSprintThisFrame ? SprintSpeed : MoveSpeed;
+			if(isCrouching) targetSpeed = crouchSpeed;
 
 			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
@@ -181,7 +229,7 @@ namespace StarterAssets
 
 		private void JumpAndGravity()
 		{
-			if (Grounded)
+			if (Grounded && !isCrouching)
 			{
 				// reset the fall timeout timer
 				_fallTimeoutDelta = FallTimeout;
