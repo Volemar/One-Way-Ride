@@ -24,7 +24,7 @@ public class EnemyMover : MonoBehaviour
 
     private void ChasePlayer()
     {
-        Debug.Log("I GOT YOU!");
+        //Debug.Log("I GOT YOU!");
         if(_looking.GetLastSawPlayerPosition() == Vector3.positiveInfinity) return;
         if((_looking.GetLastSawPlayerPosition() == transform.position)) //TODO make some threshold
         {

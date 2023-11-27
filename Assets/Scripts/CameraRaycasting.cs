@@ -31,6 +31,7 @@ public class CameraRaycasting : MonoBehaviour
         if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out _hitInfo, range, _layerMask))
         {
             _isHitting = true;
+            Debug.Log(_hitInfo.collider.transform.lossyScale.x);
         }
     }
     void OnDrawGizmos()

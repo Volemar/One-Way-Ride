@@ -7,8 +7,8 @@ using UnityEngine.InputSystem;
 namespace StarterAssets
 {
 	[RequireComponent(typeof(CharacterController))]
-	[RequireComponent(typeof(PlayerInput))]
-	public class FirstPersonController : MonoBehaviour
+    [RequireComponent(typeof(PlayerInput))]
+    public class FirstPersonController : MonoBehaviour
 	{
 		[Header("Player")]
 		[Tooltip("Move speed of the character in m/s")]

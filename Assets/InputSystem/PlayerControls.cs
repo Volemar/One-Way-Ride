@@ -16,6 +16,7 @@ public class PlayerControls : MonoBehaviour
     #region Input Properties
         #region Exploring
             public bool GetStopExploring { get; private set; }
+            public bool GetThrow { get; private set; }
             public Vector2 GetObjExploring { get; private set; }
             public bool GetCloserInteraction { get; set; } //not private set because it switches back to false too fast, so I will do it manually from interaction script
         #endregion
@@ -139,5 +140,9 @@ public class PlayerControls : MonoBehaviour
     {
         GetPlayerUIThisFrame = context.performed;
         if(GetPlayerUIThisFrame) SwitchToMenu(); //Change to esc on build
+    }
+    public void PlayerThrewThisFrame(CallbackContext context)
+    {
+        GetThrow = context.performed;
     }
 }

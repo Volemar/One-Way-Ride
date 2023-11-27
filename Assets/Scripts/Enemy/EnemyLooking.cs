@@ -28,6 +28,7 @@ public class EnemyLooking : MonoBehaviour
         _layerMask = LayerMask.GetMask(RaycastingLayer);
         state = EnemyLookingState.No;
         playerController = FindObjectOfType<FirstPersonController>();
+        SetTheLastSawPlayerPositionToPositiveInfinity();
     }
     private void Update()
     {

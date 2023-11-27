@@ -27,6 +27,7 @@ public class PlayerInteraction : MonoBehaviour
     public bool isInteracting = false;
     public bool isCloseInteracting = false;
     IInteractable currentInteractionObject = null;
+
     public GameObject currentObject = null;
     private Vector3 interactingObjectPosition;
     float sensitivity = 0.5f;
@@ -49,6 +50,7 @@ public class PlayerInteraction : MonoBehaviour
             currentInteractionObject.StopInteracting();
             currentInteractionObject = null;
             currentObject = null;
+            inputs.mouseDisabled = false;
             inputs.SwitchToPlayerDefault();
             return;
         }
@@ -61,24 +63,17 @@ public class PlayerInteraction : MonoBehaviour
                 inputs.mouseDisabled = false;
                 currentInteractionObject.StopCloseInteraction();
             }
-            if(currentInteractionObject.hasCloseInteraction)
+            if(inputs.GetCloserInteraction && currentInteractionObject.hasCloseInteraction && raycast.IsHitting && raycast.HitInfo.transform.tag == closeInteractionCollider)
             {
-                if(raycast.IsHitting && raycast.HitInfo.transform.tag == closeInteractionCollider)
-                {
-                    Debug.Log("PRESS THIS BUTTON");
-                }
-                if(inputs.GetCloserInteraction)
-                {
-                    Debug.Log("HERE WE GO");
-                    inputs.GetCloserInteraction = false;
-                    inputs.mouseDisabled = true;
-                    currentInteractionObject.CloseInteraction();
-                    isCloseInteracting = currentInteractionObject.hasToggleCloseInteraction;
-                }
+                Debug.Log("HERE WE GO");
+                inputs.GetCloserInteraction = false;
+                inputs.mouseDisabled = true;
+                currentInteractionObject.CloseInteraction();
+                isCloseInteracting = currentInteractionObject.hasToggleCloseInteraction;
             }
             Vector3 newRotation = Vector3.zero;
             newRotation.y = inputs.GetObjExploring.x * sensitivity;
-            Vector3 direction = currentObject.transform.position - transform.position;
+            //Vector3 direction = currentObject.transform.position - transform.position;
             currentObject.transform.Rotate(-newRotation, Space.World);
             currentObject.transform.RotateAround(currentObject.transform.position, Camera.main.transform.right, inputs.GetObjExploring.y * sensitivity);
             
@@ -86,15 +81,22 @@ public class PlayerInteraction : MonoBehaviour
         }
         if(!inputs.GetPlayerInteractedThisFrame) return;
         if(!raycast.IsHitting) return;
+        
         currentInteractionObject = raycast.HitInfo.transform.GetComponentInParent<IInteractable>();
         currentObject = raycast.HitInfo.transform.gameObject;
         if(currentInteractionObject == null) return;
-        isInteracting = true;
-        inputs.SwitchToExploring();
-        interactingObjectPosition = Camera.main.transform.position + Camera.main.transform.forward * interactionOffset;
-        currentObject.transform.position = interactingObjectPosition;
-        currentObject.transform.LookAt(Camera.main.transform);
+        if(currentInteractionObject.isExplorable)
+        {
+            isInteracting = true;
+            inputs.SwitchToExploring();
+            interactingObjectPosition = Camera.main.transform.position + Camera.main.transform.forward * interactionOffset;
+            currentObject.transform.position = interactingObjectPosition;
+            currentObject.transform.LookAt(Camera.main.transform);
+            currentInteractionObject.Interact();
+            
+            CustomTimeScale.ChangeTimeScaleToZero();
+            return;
+        }
         currentInteractionObject.Interact();
-        CustomTimeScale.ChangeTimeScaleToZero();
     }
 }

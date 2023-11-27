@@ -39,14 +39,13 @@ public class Note : MonoBehaviour, IInteractable
         notePanel.SetActive(false);
         closeInteractionCollider.enabled = false;
         transform.SetParent(null);
-        transform.position = initialPosition;
-        transform.rotation = initialRotation;
+        transform.SetPositionAndRotation(initialPosition, initialRotation);
     }
     public void CloseInteraction()
     {
         isBeenCloseInteracted = true;
         Debug.Log("CloserInteraction");
-        text.text = "Today is your lucky day! You will be a witness of a great deeds, not words. I’m not a goverment, so I’ll won’t make you waiting the next term, don’t worry, you’ll see everything soon!";
+        text.text = "Today is your lucky day! You will be a witness of a great deeds, not words. I’m not a government, so I’ll won’t make you waiting the next term, don’t worry, you’ll see everything soon!";
         text.enabled = true;
         notePanel.SetActive(true);
         //mainCollider.enabled = false;
