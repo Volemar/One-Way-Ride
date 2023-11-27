@@ -54,8 +54,10 @@
     "dotnet.defaultSolution": "One-Way-Ride.sln",
     "cSpell.words": [
         "Behaviour",
+        "cinemachine",
         "Dont",
         "Explorable",
+        "headbob",
         "Interactable",
         "raycast",
         "Raycasting",

@@ -45,6 +45,7 @@ public class Weapon : MonoBehaviour
         DisplayAmmo();
         if (_playerControls.GetPlayerAttackedThisFrame && canShoot)
         {
+            _playerControls.GetPlayerAttackedThisFrame = false;
             StartCoroutine(Shoot());
         }
     }

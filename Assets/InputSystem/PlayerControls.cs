@@ -15,24 +15,24 @@ public class PlayerControls : MonoBehaviour
     public bool mouseDisabled = false;
     #region Input Properties
         #region Exploring
-            public bool GetStopExploring { get; private set; }
-            public bool GetThrow { get; private set; }
-            public Vector2 GetObjExploring { get; private set; }
-            public bool GetCloserInteraction { get; set; } //not private set because it switches back to false too fast, so I will do it manually from interaction script
+            public bool GetStopExploring { get; set; }
+            public bool GetThrow { get; set; }
+            public Vector2 GetObjExploring { get; set; }
+            public bool GetCloserInteraction { get; set; }
         #endregion
         #region PlayerDefault
-            public Vector2 GetPlayerMovement { get; private set; }
-            public Vector2 GetMouseDelta { get; private set; }
+            public Vector2 GetPlayerMovement { get; set; }
+            public Vector2 GetMouseDelta { get; set; }
             public bool GetPlayerCrouchThisFrame { get; set; }
-            public bool GetPlayerToggleFlashlightThisFrame { get; private set; }
-            public bool GetPlayerJumpedThisFrame { get; private set; }
-            public bool GetPlayerReloadedThisFrame { get; private set; }
-            public bool GetPlayerSprintThisFrame { get; private set; }
-            public bool GetPlayerUIThisFrame { get; private set; }
-            public float GetPlayerWeaponScrollThisFrame { get; private set; }
-            public float GetPlayerWeaponSwitchedThisFrame { get; private set; }
-            public bool GetPlayerAttackedThisFrame { get; private set; }
-            public bool GetPlayerInteractedThisFrame { get; private set; }
+            public bool GetPlayerToggleFlashlightThisFrame { get; set; }
+            public bool GetPlayerJumpedThisFrame { get; set; }
+            public bool GetPlayerReloadedThisFrame { get; set; }
+            public bool GetPlayerSprintThisFrame { get; set; }
+            public bool GetPlayerUIThisFrame { get; set; }
+            public float GetPlayerWeaponScrollThisFrame { get; set; }
+            public float GetPlayerWeaponSwitchedThisFrame { get; set; }
+            public bool GetPlayerAttackedThisFrame { get; set; }
+            public bool GetPlayerInteractedThisFrame { get; set; }
         #endregion
     #endregion
 
@@ -70,7 +70,8 @@ public class PlayerControls : MonoBehaviour
     }
     public void StopExploring(CallbackContext context)
     {
-        GetStopExploring = context.performed;
+        if(context.phase == InputActionPhase.Started)
+        GetStopExploring = true;
     }
     public void ObjectExploring(CallbackContext context)
     {
@@ -93,37 +94,43 @@ public class PlayerControls : MonoBehaviour
     public void PlayerCrouch(CallbackContext context)
     {
         if(context.phase == InputActionPhase.Started)
-        GetPlayerCrouchThisFrame = context.ReadValueAsButton();
+        GetPlayerCrouchThisFrame = true;
     }
     
     public void PlayerJumpedThisFrame(CallbackContext context)
     {
-        GetPlayerJumpedThisFrame = context.performed;
+        if(context.phase == InputActionPhase.Started)
+        GetPlayerJumpedThisFrame = true;
     }
     
     public void PlayerToggleFlashlightThisFrame(CallbackContext context)
     {
-        GetPlayerToggleFlashlightThisFrame = context.performed;
+        if(context.phase == InputActionPhase.Started)
+        GetPlayerToggleFlashlightThisFrame = true;
     }
     
     public void PlayerAttackedThisFrame(CallbackContext context)
     {
-        GetPlayerAttackedThisFrame = context.performed;
+        if(context.phase == InputActionPhase.Started)
+        GetPlayerAttackedThisFrame = true;
     }
     
     public void PlayerInteractedThisFrame(CallbackContext context)
     {
-        GetPlayerInteractedThisFrame = context.performed;
+        if(context.phase == InputActionPhase.Started)
+        GetPlayerInteractedThisFrame = true;
     }
         
     public void PlayerReloadedThisFrame(CallbackContext context)
     {
-        GetPlayerReloadedThisFrame = context.performed;
+        if(context.phase == InputActionPhase.Started)
+        GetPlayerReloadedThisFrame = true;
     }
 
     public void PlayerSprintThisFrame(CallbackContext context)
     {
-        GetPlayerSprintThisFrame = context.performed;
+        if(context.phase == InputActionPhase.Started)
+        GetPlayerSprintThisFrame = true;
     }
 
     public void PlayerWeaponScrollThisFrame(CallbackContext context)
@@ -138,11 +145,12 @@ public class PlayerControls : MonoBehaviour
 
     public void PlayerUIThisFrame(CallbackContext context)
     {
-        GetPlayerUIThisFrame = context.performed;
+        GetPlayerUIThisFrame = true;
         if(GetPlayerUIThisFrame) SwitchToMenu(); //Change to esc on build
     }
     public void PlayerThrewThisFrame(CallbackContext context)
     {
-        GetThrow = context.performed;
+        if(context.phase == InputActionPhase.Started)
+        GetThrow = true;
     }
 }

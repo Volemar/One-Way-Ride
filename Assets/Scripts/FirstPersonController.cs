@@ -96,9 +96,9 @@ namespace StarterAssets
 		public void CrouchToggle()
 		{
 			if(!_controls.GetPlayerCrouchThisFrame) return;
+			_controls.GetPlayerCrouchThisFrame = false;
 			if(isCrouching)
 			{
-				_controls.GetPlayerCrouchThisFrame = false;
 				isCrouching = false;
 				_controller.height = _defaultCharControllerHeight;
 				_controller.center = _defaultColliderDimensions;
@@ -106,7 +106,6 @@ namespace StarterAssets
 				StartCoroutine(MoveCameraHolder(_defaultCameraHolderPosition));
 				return;
 			}
-			_controls.GetPlayerCrouchThisFrame = false;
 			isCrouching = true;
 			_controller.height = _crouchCharControllerHeight;
 			_controller.center = _crouchColliderDimensions;
@@ -243,6 +242,7 @@ namespace StarterAssets
 				// Jump
 				if (_controls.GetPlayerJumpedThisFrame && _jumpTimeoutDelta <= 0.0f)
 				{
+					_controls.GetPlayerJumpedThisFrame = false;
 					// the square root of H * -2 * G = how much velocity needed to reach desired height
 					_verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
 				}

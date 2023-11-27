@@ -45,6 +45,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         if(inputs.GetStopExploring)
         {
+            inputs.GetStopExploring = false;
             CustomTimeScale.ChangeTimeScaleToOne();
             isInteracting = false;
             currentInteractionObject.StopInteracting();
@@ -65,7 +66,6 @@ public class PlayerInteraction : MonoBehaviour
             }
             if(inputs.GetCloserInteraction && currentInteractionObject.hasCloseInteraction && raycast.IsHitting && raycast.HitInfo.transform.tag == closeInteractionCollider)
             {
-                Debug.Log("HERE WE GO");
                 inputs.GetCloserInteraction = false;
                 inputs.mouseDisabled = true;
                 currentInteractionObject.CloseInteraction();
@@ -80,6 +80,7 @@ public class PlayerInteraction : MonoBehaviour
             return;
         }
         if(!inputs.GetPlayerInteractedThisFrame) return;
+        inputs.GetPlayerInteractedThisFrame = false;
         if(!raycast.IsHitting) return;
         
         currentInteractionObject = raycast.HitInfo.transform.GetComponentInParent<IInteractable>();
