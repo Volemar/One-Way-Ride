@@ -9,9 +9,9 @@ public class Flashlight : MonoBehaviour
     [SerializeField] float maxAngle = 1f;
     [SerializeField] float lightDecay = .1f;
     [SerializeField] float angleDecay = 1f;
-    [SerializeField] float minAngle = 40f;
+    [SerializeField] float minAngle = 10f;
     private PlayerControls _controls;
-    Light myLight;
+    [SerializeField] Light myLight;
 
     private void Start()
     {

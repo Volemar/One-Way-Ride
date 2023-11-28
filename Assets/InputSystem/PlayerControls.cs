@@ -6,6 +6,7 @@ public enum ActionMaps
 {
     PlayerDefault,
     Exploring,
+    Inventory,
     Menu
 }
 
@@ -33,6 +34,9 @@ public class PlayerControls : MonoBehaviour
             public float GetPlayerWeaponSwitchedThisFrame { get; set; }
             public bool GetPlayerAttackedThisFrame { get; set; }
             public bool GetPlayerInteractedThisFrame { get; set; }
+            //public bool GetPlayerInventoryThisFrame { get; set; }
+            public bool GetPlayerUsedBattery { get; set; }
+            public bool GetPlayerUsedKey { get; set; }
         #endregion
     #endregion
 
@@ -64,6 +68,10 @@ public class PlayerControls : MonoBehaviour
     {
         _input.SwitchCurrentActionMap(ActionMaps.PlayerDefault.ToString());
     }
+    public void SwitchToInventory()
+    {
+        _input.SwitchCurrentActionMap(ActionMaps.Inventory.ToString());
+    }
     public void SwitchToMenu()
     {
         _input.SwitchCurrentActionMap(ActionMaps.Menu.ToString());
@@ -73,6 +81,10 @@ public class PlayerControls : MonoBehaviour
         if(context.phase == InputActionPhase.Started)
         GetStopExploring = true;
     }
+    // public void PlayerInventoryThisFrame(CallbackContext context)
+    // {
+    //     GetPlayerInventoryThisFrame = context.performed;
+    // }
     public void ObjectExploring(CallbackContext context)
     {
         GetObjExploring = mouseDisabled ? Vector2.zero : context.ReadValue<Vector2>();
@@ -127,30 +139,40 @@ public class PlayerControls : MonoBehaviour
         GetPlayerReloadedThisFrame = true;
     }
 
-    public void PlayerSprintThisFrame(CallbackContext context)
+    public void PlayerSprint(CallbackContext context)
     {
         if(context.phase == InputActionPhase.Started)
         GetPlayerSprintThisFrame = true;
     }
 
-    public void PlayerWeaponScrollThisFrame(CallbackContext context)
+    public void PlayerWeaponScroll(CallbackContext context)
     {
         GetPlayerWeaponScrollThisFrame = context.ReadValue<float>();
     }
 
-    public void PlayerWeaponSwitchedThisFrame(CallbackContext context)
+    public void PlayerWeaponSwitched(CallbackContext context)
     {
         GetPlayerWeaponSwitchedThisFrame = context.ReadValue<float>();
     }
 
-    public void PlayerUIThisFrame(CallbackContext context)
+    public void PlayerUI(CallbackContext context)
     {
         GetPlayerUIThisFrame = true;
         if(GetPlayerUIThisFrame) SwitchToMenu(); //Change to esc on build
     }
-    public void PlayerThrewThisFrame(CallbackContext context)
+    public void PlayerThrew(CallbackContext context)
     {
         if(context.phase == InputActionPhase.Started)
         GetThrow = true;
     }
+    public void PlayerUsedBattery(CallbackContext context)
+    {
+        if(context.phase == InputActionPhase.Started)
+        GetPlayerUsedBattery = true;
+    }
+    // public void PlayerUsedKey(CallbackContext context)
+    // {
+    //     if(context.phase == InputActionPhase.Started)
+    //     GetPlayerUsedKey = true;
+    // }
 }

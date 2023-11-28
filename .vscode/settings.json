@@ -55,10 +55,14 @@
     "cSpell.words": [
         "Behaviour",
         "cinemachine",
+        "deltatime",
         "Dont",
         "Explorable",
         "headbob",
         "Interactable",
+        "Lerp",
+        "Mathf",
+        "normalise",
         "raycast",
         "Raycasting",
         "Rigidbody"

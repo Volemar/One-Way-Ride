@@ -121,6 +121,15 @@
                     "processors": "",
                     "interactions": "Press",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Use Battery",
+                    "type": "Button",
+                    "id": "e26150c7-720c-4fc4-b15c-5d6f9a886fde",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -596,6 +605,17 @@
                     "action": "Crouch",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b9c5056f-00d9-4a64-af16-f671cd0f853a",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Use Battery",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -743,6 +763,54 @@
                     "processors": "",
                     "groups": "",
                     "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Inventory",
+            "id": "dace6f99-7df5-46d5-9e8c-582c14443eff",
+            "actions": [
+                {
+                    "name": "Use Battery",
+                    "type": "Button",
+                    "id": "24276c63-0450-42e3-825c-c674abd03a9a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Use Key",
+                    "type": "Button",
+                    "id": "e5434c22-3dca-4ca8-8112-a706c6b1aab8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "599bcacb-8edb-4a54-985c-d8a093ffe3e2",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Use Battery",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c4cd8aae-a839-46fb-8205-746c8cd20632",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Use Key",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

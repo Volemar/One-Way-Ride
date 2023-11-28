@@ -2,12 +2,14 @@
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
+using static UnityEngine.InputSystem.InputAction;
 #endif
 
 namespace StarterAssets
 {
 	[RequireComponent(typeof(CharacterController))]
     [RequireComponent(typeof(PlayerInput))]
+    [RequireComponent(typeof(Inventory))]
     public class FirstPersonController : MonoBehaviour
 	{
 		[Header("Player")]
@@ -63,8 +65,6 @@ namespace StarterAssets
 		private float _jumpTimeoutDelta;
 		private float _fallTimeoutDelta;
 
-	
-		private PlayerInput _playerInput;
 		private CharacterController _controller;
 		private PlayerControls _controls;
 		private GameObject _mainCamera;
@@ -82,6 +82,9 @@ namespace StarterAssets
 		[SerializeField] private Transform _cameraHolder;
 		private float crouchSpeed = 2f;
 		private HeadBob _headbob;
+		private bool _inInventory = false;
+		private Inventory inventory;
+		private Flashlight flashlight;
 
 		private void Awake()
 		{
@@ -91,6 +94,8 @@ namespace StarterAssets
 				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 			}
 			_headbob = GetComponentInChildren<HeadBob>();
+			inventory = GetComponent<Inventory>();
+			flashlight = GetComponentInChildren<Flashlight>();
 		}
 
 		public void CrouchToggle()
@@ -129,7 +134,6 @@ namespace StarterAssets
 		{
 			_controller = GetComponent<CharacterController>();
 			_controls = FindObjectOfType<PlayerControls>();
-			_playerInput = GetComponent<PlayerInput>();
 
 			// reset our timeouts on start
 			_jumpTimeoutDelta = JumpTimeout;
@@ -141,6 +145,7 @@ namespace StarterAssets
 			JumpAndGravity();
 			GroundedCheck();
 			CrouchToggle();
+			CheckAndUseBattery();
 			Move();
 		}
 
@@ -280,6 +285,50 @@ namespace StarterAssets
 			if (lfAngle < -360f) lfAngle += 360f;
 			if (lfAngle > 360f) lfAngle -= 360f;
 			return Mathf.Clamp(lfAngle, lfMin, lfMax);
+		}
+
+		// public void InventoryToggle()
+		// {
+		// 	if(!_controls.GetPlayerInventoryThisFrame) return;
+		// 	_controls.GetPlayerInventoryThisFrame = false;
+		// 	if(!_inInventory)
+		// 	{
+		// 		_controls.SwitchToInventory();
+		// 		CustomTimeScale.ChangeTimeScaleToZero();
+		// 		_inInventory = true;
+		// 	}
+		// 	_controls.SwitchToPlayerDefault();
+		// 	CustomTimeScale.ChangeTimeScaleToOne();
+		// 	_inInventory = false;
+		// }
+		
+		public void CheckAndUseBattery()
+		{
+			Debug.Log("No");
+			if(_controls.GetPlayerUsedBattery && CheckInventoryForItemType(ItemType.Battery))
+			{
+				_controls.GetPlayerUsedBattery = false;
+				inventory.Remove(GetItemAtFirstTypeId(ItemType.Battery));
+				flashlight.RestoreLightAngle(10);
+				flashlight.RestoreLightIntensity(50);
+			}
+		}
+
+		private bool CheckInventoryForItemType(ItemType itemType)
+		{
+			for (int i = 0; i < inventory.PlayerInventory.Count; i++)
+			{
+				if(inventory.PlayerInventory[i].GetItemType == itemType) return true;
+			}
+			return false;
+		}
+		public Item GetItemAtFirstTypeId(ItemType itemType)
+		{
+			for (int i = 0; i < inventory.PlayerInventory.Count; i++)
+			{
+				if(inventory.PlayerInventory[i].GetItemType == itemType) return inventory.PlayerInventory[i];
+			}
+			return null;
 		}
 
 		private void OnDrawGizmosSelected()

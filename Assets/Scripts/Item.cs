@@ -9,14 +9,20 @@ public enum ItemType
     Ammo
 }
 
-public class Item
+public abstract class Item : MonoBehaviour, IInteractable
 {
-    [SerializeField] private GameObject gameObject;
-    [SerializeField] private ItemType itemType;
-    //TODO Add some picture to show it in inventory menu
-    public Item(GameObject gameObject, ItemType itemType)
-    {
-        this.gameObject = gameObject;
-        this.itemType = itemType;
-    }
+    private ItemType itemType;
+    public ItemType GetItemType { get => itemType; protected set => itemType = value; }
+    public bool isExplorable => false;
+
+    public bool hasCloseInteraction => false;
+
+    public bool hasToggleCloseInteraction => false;
+
+    public abstract void CloseInteraction();
+
+    public abstract void Interact();
+    public abstract void StopCloseInteraction();
+
+    public abstract void StopInteracting();
 }
